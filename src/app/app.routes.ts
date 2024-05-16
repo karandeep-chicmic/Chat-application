@@ -7,6 +7,7 @@ import { ChatHomeComponent } from './components/chat-pages/chat-home/chat-home.c
 import { canActivate } from './services/guards/auth.guard';
 import { ForgotPasswordComponent } from './components/userAuth/forgot-password/forgot-password.component';
 import { ROUTES } from './constants/allConstants';
+import { TestingComponent } from './components/testing/testing.component';
 
 export const routes: Routes = [
   {
@@ -23,5 +24,6 @@ export const routes: Routes = [
     canActivate: [canActivate],
   },
   { path: ROUTES.FORGOT_PASS, component: ForgotPasswordComponent },
+  { path: ROUTES.TESTING, component: TestingComponent },
   { path: ROUTES.WILDCARD, component: PageNotFoundComponent },
 ];

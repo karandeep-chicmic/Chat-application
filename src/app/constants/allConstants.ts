@@ -3,6 +3,7 @@ export const API = {
   REGISTRATION: '/api/User/Registration',
   LOGIN: '/api/Login',
   FORGOT_PASS: '/api/Password/ForgetPassword',
+  RESET_PASS: '/api/Password/ResetPassword',
 };
 
 export const STATUS_CODES = {
@@ -17,4 +18,9 @@ export const ROUTES = {
   FORGOT_PASS: 'forgotPass',
   WILDCARD: '**',
   HOME_COMPONENT: 'homeComp',
+  TESTING: 'testing',
+};
+
+export const SIGNALR_API = {
+  BASE_URL: 'http://192.180.2.128:5253/chatHub',
 };

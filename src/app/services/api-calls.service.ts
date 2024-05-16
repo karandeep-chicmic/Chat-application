@@ -22,4 +22,12 @@ export class ApiCallsService {
   forgotPass(user: forgotPass) {
     return this.http.post(API.BASE_URL + API.FORGOT_PASS, user);
   }
+
+  changePassword(password: user, token: string) {
+    return this.http.post(API.BASE_URL + API.RESET_PASS, password, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+  }
 }

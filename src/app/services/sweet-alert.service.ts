@@ -40,5 +40,13 @@ export class SweetAlertService {
       title: message,
     });
   }
+
+  successModalMsg(message: string){
+    Swal.fire({
+      title: "Success",
+      text: message,
+      icon: "success"
+    });
+  }
   constructor() {}
 }
