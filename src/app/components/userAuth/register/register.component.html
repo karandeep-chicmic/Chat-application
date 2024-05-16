@@ -1,0 +1,41 @@
+<body>
+  <div class="container mt-5">
+    <h1 class="heading">Register Page</h1>
+    <div class="login-page">
+      <div class="form">
+        <form [formGroup]="form" (ngSubmit)="onSubmit()">
+          <input
+            formControlName="firstName"
+            type="text"
+            placeholder="first name"
+          />
+          <input
+            formControlName="lastName"
+            type="text"
+            placeholder="last name"
+          />
+          <input
+            formControlName="password"
+            type="password"
+            placeholder="password"
+          />
+          <input
+            formControlName="email"
+            type="email"
+            placeholder="email address"
+          />
+          <input
+            formControlName="phoneNo"
+            type="text"
+            placeholder="Phone Number"
+          />
+          <input formControlName="dateOfBirth" type="date" placeholder="Date" />
+          <button type="submit">create</button>
+          <p class="message">
+            Already registered? <a [routerLink]="'/login'">Login</a>
+          </p>
+        </form>
+      </div>
+    </div>
+  </div>
+</body>
