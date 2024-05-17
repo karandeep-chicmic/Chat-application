@@ -84,65 +84,65 @@ body {
   color:#94b876
 }
 
-.chat {
+/* .chat {
   width: 80%;
   float: left;
   background: #F2F5F8;
   border-top-right-radius: 5px;
   border-bottom-right-radius: 5px;
   color: #434651;
-}
+} */
 
-.chat .chat-header {
+.chat-header {
   padding: 20px;
   border-bottom: 2px solid rgb(40 9 9);
 }
 
-.chat .chat-header img {
+.chat-header img {
   float: left;
   height: 55px;
   width: 55px;
   border-radius: 100%;
 }
 
-.chat .chat-header .chat-about {
+.chat-header .chat-about {
   float: left;
   padding-left: 10px;
   margin-top: 6px;
 }
 
-.chat .chat-header .chat-with {
+ .chat-header .chat-with {
   font-weight: bold;
   font-size: 16px;
 }
 
-.chat .chat-header .chat-num-messages {
+.chat-header .chat-num-messages {
   color: grey;
 }
 
-.chat .chat-header .fa-star {
+.chat-header .fa-star {
   float: right;
   color: #D8DADF;
   font-size: 20px;
   margin-top: 12px;
 }
 
-.chat .chat-history {
+.chat-history {
   padding: 30px 30px 20px;
   border-bottom: 2px solid white;
   overflow-y: scroll;
   height: 575px;
 }
 
-.chat .chat-history .message-data {
+ .chat-history .message-data {
   margin-bottom: 15px;
 }
 
-.chat .chat-history .message-data-time {
+.chat-history .message-data-time {
   padding-left: 6px;
 }
 
-.chat .chat-history .message {
+.chat-history .message {
   color: white;
   padding: 18px 20px;
   line-height: 26px;
@@ -153,7 +153,7 @@ body {
   position: relative;
 }
 
-.chat .chat-history .message:after {
+.chat-history .message:after {
   bottom: 100%;
   left: 7%;
   border: solid transparent;
@@ -167,20 +167,27 @@ body {
   margin-left: -10px;
 }
 
-.chat .chat-history .my-message {
+.chat-history .my-message {
   background: rgb(172, 172, 167);
 }
 
-.chat .chat-history .other-message {
+.chat-history .other-message {
   background: rgb(62 62 66);
 }
 
 
-.chat .chat-message {
+.chat-message {
+  display: flex;
   padding: 30px;
 }
-
-.chat .chat-message textarea {
+.send-btn{
+  margin-top: 20px;
+  margin-left: 20px;
+  width: 40px;
+  height: 40px;
+  border-radius: 100%;
+}
+.chat-message textarea {
   width: 100%;
   border: none;
   padding: 10px 20px;
@@ -190,8 +197,8 @@ body {
   resize: none;
 }
 
-.chat .chat-message .fa-file-o,
-.chat .chat-message .fa-file-image-o {
+.chat-message .fa-file-o,
+.chat-message .fa-file-image-o {
   font-size: 16px;
   color: rgb(0, 0, 0);
   cursor: pointer;

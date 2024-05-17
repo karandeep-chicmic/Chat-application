@@ -17,13 +17,11 @@ export class ChatService {
     });
 
     this.connection?.on('receiveMessage', (data) => {
-      console.log("Message Received");
-      
-      console.log(data);
+      console.log('Message Received', data);
     });
   }
 
-  token: string = localStorage.getItem('token') ?? '';
+  token: string = sessionStorage.getItem('token') ?? '';
 
   public connection: signalR.HubConnection | undefined;
 
@@ -62,14 +60,16 @@ export class ChatService {
     );
   }
 
-  public async addchat(email: string) {
+  public async addChat(email: string) {
     return this.connection?.invoke('addchat', email);
   }
 
   public async previousMessages(mapId: string, pageNumber: number) {
-    return this.connection?.invoke('previousMessages',  mapId, pageNumber );
+    return this.connection?.invoke('previousMessages', mapId, 0);
   }
-
+  public async getUsers() {
+    return this.connection?.invoke('getUsers');
+  }
   public async leave() {
     return this.connection?.stop();
   }

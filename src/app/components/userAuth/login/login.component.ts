@@ -27,8 +27,11 @@ export class LoginComponent {
   router = inject(Router);
 
   form: FormGroup = this.formBuilder.group({
-    email: ['', [Validators.required, Validators.email]],
-    password: ['', [Validators.required]],
+    email: [
+      'karandeep.singh@chicmic.co.in',
+      [Validators.required, Validators.email],
+    ],
+    password: ['Noahrem@12', [Validators.required]],
   });
 
   onSubmit() {
@@ -47,9 +50,9 @@ export class LoginComponent {
         this.sweetAlert.error(data.message);
       } else {
         this.sweetAlert.success(data.message);
-        localStorage.setItem('name', data.data.name);
-        localStorage.setItem('userId', data.data.userID);
-        localStorage.setItem('token', data.data.token);
+        sessionStorage.setItem('name', data.data.name);
+        sessionStorage.setItem('userId', data.data.userID);
+        sessionStorage.setItem('token', data.data.token);
         this.router.navigate(['/chatHome']);
       }
     });
