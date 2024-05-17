@@ -41,7 +41,7 @@ export class RegisterComponent {
       this.sweetAlert.error('Form is Invalid');
       return;
     }
-    
+
     const userInForm: user = {
       firstName: this.form.controls?.['firstName'].value,
       lastName: this.form.controls?.['lastName'].value,
@@ -59,9 +59,9 @@ export class RegisterComponent {
           this.sweetAlert.error(res.message);
         } else {
           this.sweetAlert.success(res.message);
-          localStorage.setItem('name', res.data.name);
-          localStorage.setItem('userId', res.data.userID);
-          localStorage.setItem('token', res.data.token);
+          sessionStorage.setItem('name', res.data.name);
+          sessionStorage.setItem('userId', res.data.userID);
+          sessionStorage.setItem('token', res.data.token);
           this.router.navigate(['/chatHome']);
         }
       },

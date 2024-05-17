@@ -1,29 +1,21 @@
 <div class="container clearfix">
   <div class="people-list" id="people-list">
     <div class="search">
-      <input type="text" placeholder="search" />
+      <input type="text" placeholder="search" (input)="searchUser($event)" />
       <i class="fa fa-search"></i>
     </div>
-    <ul class="list">
-      <li class="clearfix">
+    <ul class="list" *ngFor="let data of dataBySearch">
+      <li class="clearfix" [routerLink]="'/login'">
         <img
-          src="https://images.pexels.com/photos/3792581/pexels-photo-3792581.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
+          [src]="findImage(data.profileImagePath)"
           alt="avatar"
         />
-        <div class="about">
-          <div class="name">Vincent Porter</div>
-          <div class="status"><i class="fa fa-circle online"></i> online</div>
-        </div>
-      </li>
-
-      <li class="clearfix">
-        <img
-          src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/195612/chat_avatar_04.jpg"
-          alt="avatar"
-        />
-        <div class="about">
-          <div class="name">Erica Hughes</div>
-          <div class="status"><i class="fa fa-circle offline"></i> offline</div>
+        <div class="about" [routerLink]="'/login'">
+          <div class="name">{{ data.firstName }}</div>
+          <div class="status">
+            {{ data.phoneNo }}
+            <!-- <i class="fa fa-circle online"></i> -->
+          </div>
         </div>
       </li>
     </ul>
@@ -37,7 +29,7 @@
       />
 
       <div class="chat-about">
-        <div class="chat-with">Chat with Vincent Porter</div>
+        <div class="chat-with">Karandeep</div>
         <div class="chat-num-messages">already 1 902 messages</div>
       </div>
       <i class="fa fa-star"></i>
@@ -53,14 +45,14 @@
             <i class="fa fa-circle me"></i>
           </div>
           <div class="message other-message float-right">
-            Hi Vincent, how are you? How is the project coming along?
+            Hi Karan, how are you? How is the project coming along?
           </div>
         </li>
 
         <li>
           <div class="message-data">
             <span class="message-data-name"
-              ><i class="fa fa-circle online"></i> Vincent</span
+              ><i class="fa fa-circle online"></i> Karandeep</span
             >
             <span class="message-data-time">10:12 AM, Today</span>
           </div>
@@ -86,8 +78,8 @@
         <li>
           <div class="message-data">
             <span class="message-data-name"
-              ><i class="fa fa-circle online"></i> Vincent</span
-            >
+              ><i class="fa fa-circle online"></i> Karandeep
+            </span>
             <span class="message-data-time">10:20 AM, Today</span>
           </div>
           <div class="message my-message">
@@ -99,7 +91,7 @@
         <li>
           <div class="message-data">
             <span class="message-data-name"
-              ><i class="fa fa-circle online"></i> Vincent</span
+              ><i class="fa fa-circle online"></i> Karandeep</span
             >
             <span class="message-data-time">10:31 AM, Today</span>
           </div>
@@ -148,7 +140,7 @@
   <li>
     <div class="message-data">
       <span class="message-data-name"><i class="fa fa-circle online"></i>
-        Vincent</span>
+        Karandeep</span>
       <span class="message-data-time">{{time}}, Today</span>
     </div>
     <div class="message my-message">

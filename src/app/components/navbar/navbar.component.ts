@@ -10,5 +10,5 @@ import { RouterModule } from '@angular/router';
   styleUrl: './navbar.component.css',
 })
 export class NavbarComponent {
-  token: boolean = true;
+  token: boolean = sessionStorage.getItem('token') ? true : false;
 }

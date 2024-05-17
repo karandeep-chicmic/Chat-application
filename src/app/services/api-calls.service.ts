@@ -30,4 +30,12 @@ export class ApiCallsService {
       },
     });
   }
+  // To search a user on based of a search string
+  searchUser(searchItem: string) {
+    return this.http.get(API.BASE_URL + API.SEARCH_STRING + searchItem);
+  }
+
+  logoutUser() {
+    return this.http.post(API.BASE_URL + API.LOGOUT_USER, {});
+  }
 }
