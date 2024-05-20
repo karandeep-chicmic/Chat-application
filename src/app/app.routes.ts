@@ -9,6 +9,7 @@ import { ForgotPasswordComponent } from './components/userAuth/forgot-password/f
 import { ROUTES } from './constants/allConstants';
 // import { TestingComponent } from './components/testing/testing.component';
 import { ChatComponent } from './components/chat-pages/chat/chat.component';
+import { ProfileComponent } from './components/profile/profile.component';
 
 export const routes: Routes = [
   {
@@ -37,7 +38,11 @@ export const routes: Routes = [
     component: ForgotPasswordComponent,
     canActivate: [canActivateLogin],
   },
-  // { path: ROUTES.TESTING, component: TestingComponent },
+  {
+    path: ROUTES.PROFILE,
+    component: ProfileComponent,
+    canActivate: [canActivate],
+  },
   { path: ROUTES.CHAT, component: ChatComponent },
   { path: ROUTES.WILDCARD, component: PageNotFoundComponent },
 ];

@@ -22,6 +22,7 @@ export const ROUTES = {
   HOME_COMPONENT: 'homeComp',
   TESTING: 'testing',
   CHAT: 'chat',
+  PROFILE: 'profile',
 };
 
 export const SIGNALR_API = {

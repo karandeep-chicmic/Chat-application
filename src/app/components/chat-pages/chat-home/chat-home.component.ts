@@ -42,7 +42,8 @@ export class ChatHomeComponent implements OnInit {
           if (data.data) {
             // Common data for search and Chat history users.
             this.dataBySearch = data.data;
-            this.defaultData = data.data;
+            this.defaultData = data.data; 
+            
             // Setting the last talked user to default
             this.chatData = data.data[0]?.chatRoomId;
             this.selectedEmail = data.data[0]?.email;
