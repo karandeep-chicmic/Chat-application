@@ -11,6 +11,7 @@ import { user } from '../../../interfaces/user.interface';
 import { ApiCallsService } from '../../../services/api-calls.service';
 import { SweetAlertService } from '../../../services/sweet-alert.service';
 import { STATUS_CODES } from '../../../constants/allConstants';
+import { UsedDataService } from '../../../services/used-data.service';
 
 @Component({
   selector: 'app-login',
@@ -25,6 +26,7 @@ export class LoginComponent {
   apiCalls = inject(ApiCallsService);
   sweetAlert = inject(SweetAlertService);
   router = inject(Router);
+  usedData = inject(UsedDataService);
 
   form: FormGroup = this.formBuilder.group({
     email: [
@@ -45,15 +47,18 @@ export class LoginComponent {
     };
 
     this.apiCalls.loginUser(userInForm).subscribe((data) => {
-      console.log(data);
       if (data.statusCode != STATUS_CODES.SUCCESS) {
         this.sweetAlert.error(data.message);
       } else {
+        this.usedData.token.set(true); //to display the navbar on basis of token availabilty
+        this.usedData.username.set(data.data.name); //to set the name of the user so it ll be displayed in navbar
         this.sweetAlert.success(data.message);
         sessionStorage.setItem('name', data.data.name);
         sessionStorage.setItem('userId', data.data.userID);
         sessionStorage.setItem('token', data.data.token);
-        this.router.navigate(['/chatHome']);
+        this.router.navigate(['/chatHome']); //navigate to chatHome
+
+        
       }
     });
   }
