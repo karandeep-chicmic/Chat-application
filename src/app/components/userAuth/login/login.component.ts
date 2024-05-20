@@ -12,33 +12,41 @@ import { ApiCallsService } from '../../../services/api-calls.service';
 import { SweetAlertService } from '../../../services/sweet-alert.service';
 import { STATUS_CODES } from '../../../constants/allConstants';
 import { UsedDataService } from '../../../services/used-data.service';
+import { ChatService } from '../../../services/chat.service';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-login',
   standalone: true,
-  imports: [RouterModule, ReactiveFormsModule],
+  imports: [RouterModule, ReactiveFormsModule, CommonModule],
   templateUrl: './login.component.html',
   styleUrl: './login.component.css',
 })
 export class LoginComponent {
-  http = inject(HttpClient);
-  formBuilder = inject(FormBuilder);
-  apiCalls = inject(ApiCallsService);
-  sweetAlert = inject(SweetAlertService);
-  router = inject(Router);
-  usedData = inject(UsedDataService);
+  // All the Injected Services
+  http: HttpClient = inject(HttpClient);
+  formBuilder: FormBuilder = inject(FormBuilder);
+  apiCalls: ApiCallsService = inject(ApiCallsService);
+  sweetAlert: SweetAlertService = inject(SweetAlertService);
+  router: Router = inject(Router);
+  usedData: UsedDataService = inject(UsedDataService);
+  chat: ChatService = inject(ChatService);
 
+  // all Variables and forms
   form: FormGroup = this.formBuilder.group({
     email: [
       'karandeep.singh@chicmic.co.in',
       [Validators.required, Validators.email],
     ],
-    password: ['Noahrem@12', [Validators.required]],
+    password: ['Noahrem@12', [Validators.required, Validators.minLength(8)]],
   });
 
+  // Class methods
   onSubmit() {
     if (this.form.invalid) {
       this.sweetAlert.error('Form is Invalid');
+      console.log(this.form.controls['password'] );
+      
       return;
     }
     const userInForm: user = {
@@ -56,9 +64,21 @@ export class LoginComponent {
         sessionStorage.setItem('name', data.data.name);
         sessionStorage.setItem('userId', data.data.userID);
         sessionStorage.setItem('token', data.data.token);
-        this.router.navigate(['/chatHome']); //navigate to chatHome
 
-        
+        // Starting the Signal R connection
+        this.chat.startConnection();
+
+        // Refresh Event Called again
+        this.chat.connection?.on('refresh', () => {
+          console.log('it is in refresh');
+        });
+
+        // Receive message event called again
+        this.chat.connection?.on('receiveMessage', (data) => {
+          console.log('Message Received', data);
+          this.chat.messageSubject.next(data);
+        });
+        this.router.navigate(['/chatHome']); //navigate to chatHome
       }
     });
   }

@@ -9,7 +9,7 @@ import { BehaviorSubject } from 'rxjs';
 })
 export class ChatService {
   router = inject(Router);
-  private messageSubject = new BehaviorSubject<any>(null);
+  public messageSubject = new BehaviorSubject<any>(null);
   public messages$ = this.messageSubject.asObservable();
 
   constructor() {
@@ -29,10 +29,11 @@ export class ChatService {
 
   public connection: signalR.HubConnection | undefined;
 
-  private async startConnection() {
+  public async startConnection() {
     try {
+      const token: string = sessionStorage.getItem('token') || '';
       this.connection = new signalR.HubConnectionBuilder()
-        .withUrl(`${SIGNALR_API.BASE_URL}?access_token=${this.token}`, {
+        .withUrl(`${SIGNALR_API.BASE_URL}?access_token=${token}`, {
           skipNegotiation: true,
           transport: signalR.HttpTransportType.WebSockets,
         })

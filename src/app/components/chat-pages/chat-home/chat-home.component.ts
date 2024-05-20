@@ -6,6 +6,7 @@ import { dataBySearch } from '../../../interfaces/user.interface';
 import { API, DEFAULT_USER_IMG } from '../../../constants/allConstants';
 import { CommonModule } from '@angular/common';
 import { ChatComponent } from '../chat/chat.component';
+import { UsedDataService } from '../../../services/used-data.service';
 
 @Component({
   selector: 'app-chat-home',
@@ -19,30 +20,42 @@ export class ChatHomeComponent implements OnInit {
   router = inject(Router);
   chat = inject(ChatService);
   apiCalls = inject(ApiCallsService);
+  usedData = inject(UsedDataService);
 
+  // All variables
   dataBySearch: dataBySearch[] = [];
+  defaultData: dataBySearch[] = [];
   chatData: any;
   selectedEmail: string = '';
   alreadyChatWithUser: any;
   username: string | null = 'temp';
   altImgURl: string = '';
 
+  // Constructor and Lifecycle hooks
   ngOnInit(): void {
+    // Wait for connection to be connected
     this.waitForConnection().then(() => {
+      //To get the chat History
       this.chat
         .getUsers()
         .then((data) => {
-          this.dataBySearch = data.data;
-          console.log(data.data);
+          if (data.data) {
+            // Common data for search and Chat history users.
+            this.dataBySearch = data.data;
+            this.defaultData = data.data;
+            // Setting the last talked user to default
+            this.chatData = data.data[0]?.chatRoomId;
+            this.selectedEmail = data.data[0]?.email;
+          }
         })
         .catch((err) => {
+          // Error Handling
           console.log('Error is :', err);
         });
     });
-    this.altImgURl = DEFAULT_USER_IMG.IMAGE;
-    // this.dataBySearch = this.alreadyChatWithUser
 
-    this.username = sessionStorage.getItem('name');
+    // Alternate Image
+    this.altImgURl = DEFAULT_USER_IMG.IMAGE;
   }
 
   waitForConnection(): Promise<void> {
@@ -64,21 +77,22 @@ export class ChatHomeComponent implements OnInit {
     });
   }
 
+  // search the user on basis of user input
   searchUser(event: any) {
     this.apiCalls.searchUser(event.target.value).subscribe((data: any) => {
       this.dataBySearch = data?.data;
     });
   }
 
+  // To find the Image of particular user
   findImage(profileImagePath: string | undefined) {
-    if (profileImagePath || profileImagePath !== '') {
-      console.log(profileImagePath);
-
+    if (profileImagePath && profileImagePath !== '') {
       return API.BASE_URL + '/' + profileImagePath;
     }
     return DEFAULT_USER_IMG.IMAGE;
   }
 
+  // Get Chat of user on Click
   getChat(email: string | undefined) {
     this.selectedEmail = email || '';
     this.chat
@@ -89,7 +103,12 @@ export class ChatHomeComponent implements OnInit {
       .catch((err) => console.log('Error is: ' + err));
   }
 
+  // Image error
   onImageError() {
     return this.altImgURl;
+  }
+
+  setToDefault() {
+    this.dataBySearch = [...this.defaultData];
   }
 }

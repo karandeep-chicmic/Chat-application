@@ -11,11 +11,12 @@ import { user } from '../../../interfaces/user.interface';
 import { ApiCallsService } from '../../../services/api-calls.service';
 import { STATUS_CODES } from '../../../constants/allConstants';
 import { SweetAlertService } from '../../../services/sweet-alert.service';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-register',
   standalone: true,
-  imports: [RouterModule, ReactiveFormsModule],
+  imports: [RouterModule, ReactiveFormsModule, CommonModule],
   templateUrl: './register.component.html',
   styleUrl: './register.component.css',
 })

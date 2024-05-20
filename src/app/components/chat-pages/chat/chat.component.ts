@@ -1,4 +1,14 @@
-import { Component, inject, Input, OnChanges, OnInit, OnDestroy } from '@angular/core';
+import {
+  Component,
+  inject,
+  Input,
+  OnChanges,
+  OnInit,
+  OnDestroy,
+  ViewChild,
+  ElementRef,
+  AfterViewChecked,
+} from '@angular/core';
 import { ChatService } from '../../../services/chat.service';
 import { CommonModule, JsonPipe } from '@angular/common';
 import {
@@ -8,6 +18,7 @@ import {
   Validators,
 } from '@angular/forms';
 import { Subscription } from 'rxjs';
+import { SweetAlertService } from '../../../services/sweet-alert.service';
 
 @Component({
   selector: 'app-chat',
@@ -16,12 +27,17 @@ import { Subscription } from 'rxjs';
   templateUrl: './chat.component.html',
   styleUrls: ['./chat.component.css'],
 })
-export class ChatComponent implements OnChanges, OnInit, OnDestroy {
+export class ChatComponent
+  implements OnChanges, OnInit, OnDestroy, AfterViewChecked
+{
+  // All the injected services.
   chat: ChatService = inject(ChatService);
   formBuilder: FormBuilder = inject(FormBuilder);
+  sweetAlert: SweetAlertService = inject(SweetAlertService);
 
   @Input() chatData: any;
   @Input() selectedEmail: any;
+  @ViewChild('chatHistory') chatHistoryContainer!: ElementRef;
 
   // All the chat messages associated with the selected user
   chatMessages: any;
@@ -39,6 +55,16 @@ export class ChatComponent implements OnChanges, OnInit, OnDestroy {
     this.messagesSubscription = this.chat.messages$.subscribe((data) => {
       if (data) {
         this.chatMessages?.data?.push(data);
+        this.scrollToBottom();
+        console.log(data);
+
+        console.log(this);
+
+        if (data.senderEmail === this.selectedEmail) {
+          this.sweetAlert.success('message from :' + data.senderEmail);
+        }
+
+        // this.sweetAlert.success(data?.message);
       }
     });
 
@@ -52,10 +78,16 @@ export class ChatComponent implements OnChanges, OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    // Clean up the subscription to prevent memory leaks
+    // Clean up the subscription
     if (this.messagesSubscription) {
       this.messagesSubscription.unsubscribe();
     }
+  }
+  ngAfterViewChecked() {
+    // For scrolling to the bottom after the view changes basically when
+    // the new message is added
+
+    this.scrollToBottom();
   }
 
   loadPreviousMessages(): void {
@@ -70,6 +102,7 @@ export class ChatComponent implements OnChanges, OnInit, OnDestroy {
     }
   }
 
+  //  To send a message in chat
   sendMsg() {
     console.log(this.chatMessages);
 
@@ -78,12 +111,20 @@ export class ChatComponent implements OnChanges, OnInit, OnDestroy {
       .sendMessage(this.selectedEmail, msg, 1, '', '')
       .then((data) => {
         console.log(data);
-        
       })
       .catch((err) => {
         console.log(err);
       });
 
     this.form.reset();
+  }
+
+  scrollToBottom(){
+    try {
+      this.chatHistoryContainer.nativeElement.scrollTop =
+        this.chatHistoryContainer.nativeElement.scrollHeight;
+    } catch (err) {
+      console.error('Could not scroll to the bottom of chat:', err);
+    }
   }
 }

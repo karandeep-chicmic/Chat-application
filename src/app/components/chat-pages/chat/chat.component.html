@@ -1,8 +1,6 @@
 <div class="chat-header clearfix">
-  <div class="chat-history">
-    <!-- {{ chatMessages | json }}
-    {{ selectedEmail }}
-    {{ chatData }} -->
+  <div #chatHistory class="chat-history">
+    
     <ul *ngFor="let chat of chatMessages?.data">
       <li *ngIf="chat?.senderEmail !== selectedEmail" class="clearfix">
         <div class="message-data align-right">
@@ -10,7 +8,7 @@
             chat?.dateTime | date : "shortTime"
           }}</span>
           &nbsp; &nbsp;
-          {{chat | json}}
+          <!-- {{chat | json}} -->
           <span class="message-data-name">{{ chat?.senderEmail }}</span>
           <i class="fa fa-circle me"></i>
         </div>
