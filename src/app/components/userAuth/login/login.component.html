@@ -5,14 +5,50 @@
       <div class="form">
         <form [formGroup]="form" (ngSubmit)="onSubmit()" class="login-form">
           <input formControlName="email" type="email" placeholder="Email" />
+          <!-- Validators Start -->
+          <div class="validation-check" *ngIf="form.controls['email'].touched">
+            <span
+              class="validation-check"
+              *ngIf="form.controls['email'].errors?.['required']"
+              >Email Field is required</span
+            >
+            <span
+              class="validation-check"
+              *ngIf="form.controls['email'].errors?.['email']"
+              >Enter A Valid email</span
+            >
+          </div>
+
+          <!-- Validators End -->
           <input
             formControlName="password"
             type="password"
             placeholder="password"
           />
+          
+          <!-- Validators Start -->
+          <div
+            class="validation-check"
+            *ngIf="form.controls['password'].touched"
+          >
+            <span
+              class="validation-check"
+              *ngIf="form.controls['password'].errors?.['required']"
+              >Password Field is required</span
+            >
+            <span
+              class="validation-check"
+              *ngIf="form.controls['password'].errors?.['minlength']"
+              >Password must be greater than 8 letters</span
+            >
+          </div>
+
+          <!-- Validators End -->
           <button type="submit">login</button>
           <p class="message">
-            <a [routerLink]="'/forgotPass'" routerLinkActive="router-link-active"
+            <a
+              [routerLink]="'/forgotPass'"
+              routerLinkActive="router-link-active"
               >Forgot password?</a
             >
           </p>
@@ -28,7 +64,6 @@
   </div>
 </body>
 
-
-<span> {{"karandeep.singh@chicmic.co.in"}}</span><br>
-<span> {{"Noahrem@12"}}</span>
-
+<span> {{ "karandeep.singh@chicmic.co.in" }}</span
+><br />
+<span> {{ "Noahrem@12" }}</span>
