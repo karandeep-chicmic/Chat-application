@@ -1,6 +1,3 @@
-
-<button class="btn btn-primary" (click)="logout()"> Logout</button>
-
 <div class="container clearfix">
   <div class="people-list" id="people-list">
     <div class="search">
@@ -9,7 +6,7 @@
     </div>
     <ul class="list" *ngFor="let data of dataBySearch">
       <li class="clearfix">
-        <img [src]="findImage(data.profileImagePath)" alt="avatar" />
+        <img [src]="findImage(data.profileImagePath)" (error)="onImageError()" alt="avatar" />
         <div class="about" (click)="getChat(data.email)">
           <div class="name">{{ data.firstName }}</div>
           <div class="status">
@@ -29,7 +26,7 @@
       />
 
       <div class="chat-about">
-        <div class="chat-with">{{selectedEmail}}</div>
+        <div class="chat-with">{{ selectedEmail }}</div>
         <div class="chat-num-messages">already 1 902 messages</div>
       </div>
       <i class="fa fa-star"></i>

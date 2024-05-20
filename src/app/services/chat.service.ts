@@ -2,12 +2,15 @@ import { Injectable, inject } from '@angular/core';
 import * as signalR from '@microsoft/signalr';
 import { SIGNALR_API } from '../constants/allConstants';
 import { Router } from '@angular/router';
+import { BehaviorSubject } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
 })
 export class ChatService {
   router = inject(Router);
+  private messageSubject = new BehaviorSubject<any>(null);
+  public messages$ = this.messageSubject.asObservable();
 
   constructor() {
     this.startConnection();
@@ -18,6 +21,7 @@ export class ChatService {
 
     this.connection?.on('receiveMessage', (data) => {
       console.log('Message Received', data);
+      this.messageSubject.next(data);
     });
   }
 

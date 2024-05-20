@@ -5,7 +5,7 @@ export const API = {
   FORGOT_PASS: '/api/Password/ForgetPassword',
   RESET_PASS: '/api/Password/ResetPassword',
   SEARCH_STRING: '/api/User?searchString=',
-  LOGOUT_USER: "api/Login/logout"
+  LOGOUT_USER: '/api/Login/logout',
 };
 
 export const STATUS_CODES = {
