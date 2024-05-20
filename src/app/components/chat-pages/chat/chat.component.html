@@ -1,7 +1,7 @@
 <div class="chat-header clearfix">
   <div class="chat-history">
-    <!-- {{ chatMessages?.data | json }} -->
-    <!-- {{selectedEmail}} -->
+    {{ chatMessages?.data | json }}
+    {{selectedEmail}}
     <ul *ngFor="let chat of chatMessages?.data">
       <li *ngIf="chat?.senderEmail !== selectedEmail" class="clearfix">
         <div class="message-data align-right">

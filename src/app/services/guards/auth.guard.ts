@@ -17,7 +17,7 @@ export const canActivateLogin = () => {
   if (sessionStorage.getItem('token')) {
     return false;
   } else {
-    router.navigate([ROUTES.CHAT_HOME]);
+    // router.navigate(['/chatHome']);
     return true;
   }
 };

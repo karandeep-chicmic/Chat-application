@@ -16,14 +16,13 @@ import { ChatComponent } from '../chat/chat.component';
 })
 export class ChatHomeComponent implements OnInit {
   router = inject(Router);
-  // chat = inject(ChatService);
+  chat = inject(ChatService);
   apiCalls = inject(ApiCallsService);
 
   dataBySearch: dataBySearch[] = [];
   chatData: any;
   selectedEmail: string = '';
   alreadyChatWithUser: any;
-  constructor(private chat: ChatService) {}
 
   ngOnInit(): void {
     // if (this.chat.connection?.state.toLowerCase() !== 'connecting') {

@@ -62,7 +62,7 @@ export class RegisterComponent {
           sessionStorage.setItem('name', res.data.name);
           sessionStorage.setItem('userId', res.data.userID);
           sessionStorage.setItem('token', res.data.token);
-          this.router.navigate(['/chatHome']);
+          // this.router.navigate(['/chatHome']);
         }
       },
       error: (err) => {

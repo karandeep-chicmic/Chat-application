@@ -7,7 +7,7 @@ import { ChatHomeComponent } from './components/chat-pages/chat-home/chat-home.c
 import { canActivate, canActivateLogin } from './services/guards/auth.guard';
 import { ForgotPasswordComponent } from './components/userAuth/forgot-password/forgot-password.component';
 import { ROUTES } from './constants/allConstants';
-import { TestingComponent } from './components/testing/testing.component';
+// import { TestingComponent } from './components/testing/testing.component';
 import { ChatComponent } from './components/chat-pages/chat/chat.component';
 
 export const routes: Routes = [
@@ -32,8 +32,12 @@ export const routes: Routes = [
     component: ChatHomeComponent,
     canActivate: [canActivate],
   },
-  { path: ROUTES.FORGOT_PASS, component: ForgotPasswordComponent,canActivate: [canActivate], },
-  { path: ROUTES.TESTING, component: TestingComponent },
-  { path: ROUTES.CHAT, component: ChatComponent},
+  {
+    path: ROUTES.FORGOT_PASS,
+    component: ForgotPasswordComponent,
+    canActivate: [canActivateLogin],
+  },
+  // { path: ROUTES.TESTING, component: TestingComponent },
+  { path: ROUTES.CHAT, component: ChatComponent },
   { path: ROUTES.WILDCARD, component: PageNotFoundComponent },
 ];
