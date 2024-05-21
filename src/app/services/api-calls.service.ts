@@ -38,4 +38,8 @@ export class ApiCallsService {
   logoutUser() {
     return this.http.post(API.BASE_URL + API.LOGOUT_USER, {});
   }
+
+  getUser(id?: string) {
+    return this.http.get(`${API.BASE_URL}${API.USER_GET}?id=${id}`);
+  }
 }
