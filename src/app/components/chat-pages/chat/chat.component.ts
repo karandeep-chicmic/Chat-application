@@ -53,6 +53,7 @@ export class ChatComponent
 
   ngOnInit(): void {
     this.messagesSubscription = this.chat.messages$.subscribe((data) => {
+      const emailFromSession: string | null = sessionStorage.getItem('email');
       if (
         data &&
         (data.receiverEmail === this.selectedEmail ||
@@ -61,11 +62,9 @@ export class ChatComponent
         this.chatMessages?.data?.push(data);
 
         this.scrollToBottom();
-        console.log(data);
-
-        if (data.senderEmail === this.selectedEmail) {
-          this.sweetAlert.success('message from :' + data.senderEmail);
-        }
+      }
+      if (data.receiverEmail === emailFromSession) {
+        this.sweetAlert.success('message from :' + data.senderEmail);
       }
     });
 
@@ -92,6 +91,7 @@ export class ChatComponent
   }
 
   loadPreviousMessages(): void {
+    // debugger
     if (this.chat.connection?.state !== 'Connecting') {
       this.chat
         .previousMessages(this.chatData, this.pageNumber)
@@ -105,14 +105,12 @@ export class ChatComponent
 
   //  To send a message in chat
   sendMsg() {
-    console.log(this.chatMessages);
+    // console.log(this.chatMessages);
 
     const msg = this.form.controls['inputChatMsg'].value;
     this.chat
       .sendMessage(this.selectedEmail, msg, 1, '', '')
-      .then((data) => {
-        console.log(data);
-      })
+      .then((data) => {})
       .catch((err) => {
         console.log(err);
       });

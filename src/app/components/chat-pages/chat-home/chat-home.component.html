@@ -1,25 +1,29 @@
 <div class="container clearfix">
   <div class="people-list" id="people-list">
     <div class="search">
-      <input type="text" placeholder="search" (blur)="setToDefault()" (input)="searchUser($event)" />
+      <input type="text" placeholder="search" (input)="searchUser($event)" />
       <i class="fa fa-search"></i>
     </div>
     <ul class="list" *ngFor="let data of dataBySearch">
       <li class="clearfix">
-        <img [src]="findImage(data.profileImagePath)" (error)="onImageError()" alt="avatar" />
+        <img
+          [src]="findImage(data.profileImagePath)"
+          (error)="findImage('', 'er')"
+          alt="avatar"
+        />
         <div class="about" (click)="getChat(data.email)">
           <div class="name">{{ data.firstName }}</div>
+
           <div class="status">
             {{ data.phoneNo }}
-            
-            <!-- <i class="fa fa-circle online">fff</i> -->
+
+            <i class="fa fa-circle online" *ngIf="data?.isActive"> online</i>
           </div>
         </div>
       </li>
     </ul>
   </div>
 
-  
   <div class="chat">
     <div class="chat-header clearfix">
       <img
@@ -37,9 +41,6 @@
 
     <!--  For loading each chat -->
     <app-chat [chatData]="chatData" [selectedEmail]="selectedEmail"></app-chat>
-
   </div>
   <!-- end chat -->
 </div>
-
-

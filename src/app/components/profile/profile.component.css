@@ -4,13 +4,13 @@
 }
 
 body {
-    background-color: #000
+    background-color: #ee0000
 }
 
 .card {
     width: 350px;
-    background-color: #efefef;
-    border: none;
+    background-color: #f0efef;
+    border:#ad5a5a;
     cursor: pointer;
     transition: all 0.5s;
 }
@@ -40,7 +40,7 @@ body {
 }
 
 .idd1 {
-    font-size: 12px
+    font-size: 15px
 }
 
 .number {
@@ -49,8 +49,9 @@ body {
 }
 
 .follow {
-    font-size: 12px;
+    font-size: 17px;
     font-weight: 500;
+    margin-bottom: 10px;
     color: #444444
 }
 
@@ -58,14 +59,14 @@ body {
     height: 40px;
     width: 150px;
     border: none;
-    background-color: #000;
+    background-color: #000000;
     color: #aeaeae;
     font-size: 15px
 }
 
 .text span {
-    font-size: 13px;
-    color: #545454;
+    font-size: 25px;
+    color: #612424;
     font-weight: 500
 }
 
@@ -79,10 +80,14 @@ hr .new1 {
 
 .join {
     font-size: 14px;
-    color: #a0a0a0;
+    color: #666666;
     font-weight: bold
 }
 
 .date {
     background-color: #ccc
+}
+
+img{
+    border-radius: 100%;
 }

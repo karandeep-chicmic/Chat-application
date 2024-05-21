@@ -65,6 +65,8 @@ export class ChatHomeComponent implements OnInit {
             this.dataBySearch = data.data;
             this.defaultData = data.data;
 
+            // console.log(data.data);
+
             // Setting the last talked user to default
             if (!flag) {
               this.chatData = data.data[0]?.chatRoomId;
@@ -112,7 +114,10 @@ export class ChatHomeComponent implements OnInit {
   }
 
   // To find the Image of particular user
-  findImage(profileImagePath: string | undefined) {
+  findImage(profileImagePath: string | undefined,err?:string ) {
+    if(err){
+      return DEFAULT_USER_IMG.IMAGE;
+    }
     if (profileImagePath && profileImagePath !== '') {
       return API.BASE_URL + '/' + profileImagePath;
     }
@@ -132,6 +137,7 @@ export class ChatHomeComponent implements OnInit {
 
   // Image error
   onImageError() {
+    
     return this.altImgURl;
   }
 

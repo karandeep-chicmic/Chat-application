@@ -2,18 +2,22 @@ import { HttpClient } from '@angular/common/http';
 import { Component, inject, OnInit } from '@angular/core';
 import { user } from '../../interfaces/user.interface';
 import { ApiCallsService } from '../../services/api-calls.service';
+import { DatePipe, JsonPipe } from '@angular/common';
+import { API, DEFAULT_USER_IMG } from '../../constants/allConstants';
 
 @Component({
   selector: 'app-profile',
   standalone: true,
-  imports: [],
+  imports: [JsonPipe, DatePipe],
   templateUrl: './profile.component.html',
   styleUrl: './profile.component.css',
 })
 export class ProfileComponent implements OnInit {
   apiCalls: ApiCallsService = inject(ApiCallsService);
   data: user[] = [];
+  imageUrl: string = '';
   ngOnInit(): void {
+    this.imageUrl = DEFAULT_USER_IMG.IMAGE;
     const id = sessionStorage.getItem('userId') ?? '';
     this.apiCalls.getUser(id).subscribe((data: any) => {
       this.data = data?.data;

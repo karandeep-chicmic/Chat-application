@@ -26,4 +26,5 @@ export interface dataBySearch {
   updated?: string;
   userId?: string;
   profileImagePath?: string;
+  isActive: boolean;
 }

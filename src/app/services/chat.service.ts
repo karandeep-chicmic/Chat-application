@@ -2,7 +2,7 @@ import { Injectable, inject } from '@angular/core';
 import * as signalR from '@microsoft/signalr';
 import { SIGNALR_API } from '../constants/allConstants';
 import { Router } from '@angular/router';
-import { BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
@@ -15,9 +15,9 @@ export class ChatService {
   constructor() {
     this.startConnection();
 
-      this.connection?.on('refresh', () => {
-        console.log('it is in refresh');
-      });
+    this.connection?.on('refresh', () => {
+      console.log('it is in refresh');
+    });
 
     this.connection?.on('receiveMessage', (data) => {
       console.log('Message Received', data);
@@ -65,7 +65,7 @@ export class ChatService {
     );
   }
 
-  public async addChat(email: string) {
+  public async addChat(email: string){
     return this.connection?.invoke('addchat', email);
   }
 
