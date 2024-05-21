@@ -6,7 +6,9 @@ export const API = {
   RESET_PASS: '/api/Password/ResetPassword',
   SEARCH_STRING: '/api/User?searchString=',
   LOGOUT_USER: '/api/Login/logout',
-  USER_GET: '/api/User',
+  USER_GET: '/api/User/profile',
+  USER_EDIT: '/api/User',
+  UPDATE_PASSWORD: '/api/Password/ChangePassword',
 };
 
 export const STATUS_CODES = {
@@ -24,6 +26,7 @@ export const ROUTES = {
   TESTING: 'testing',
   CHAT: 'chat',
   PROFILE: 'profile',
+  EDIT_USER_PASSWORD: 'editUserOrDelete',
 };
 
 export const SIGNALR_API = {
@@ -33,4 +36,9 @@ export const SIGNALR_API = {
 export const DEFAULT_USER_IMG = {
   IMAGE:
     'https://img.freepik.com/premium-vector/default-male-user-profile-icon-vector-illustration_276184-168.jpg',
+};
+
+export const QUERY_PARAMS = {
+  EDIT_USER: 'editUser',
+  CHANGE_PASS: 'changePass',
 };

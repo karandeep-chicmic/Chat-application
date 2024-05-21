@@ -1,5 +1,9 @@
 <div class="chat-header clearfix">
-  <div #chatHistory class="chat-history">
+  <div #chatHistory class="chat-history" (scroll)="loadPreviousMsgs()">
+    <div class="d-flex justify-content-center mb-2">
+      <button (click)="loadPreviousMsgs()" class="load-messages-btn">Load Previous Messages</button>
+
+    </div>
     <ul *ngFor="let chat of chatMessages?.data">
       <li *ngIf="chat?.senderEmail !== selectedEmail" class="clearfix">
         <div class="message-data align-right">

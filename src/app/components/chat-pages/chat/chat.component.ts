@@ -27,9 +27,7 @@ import { SweetAlertService } from '../../../services/sweet-alert.service';
   templateUrl: './chat.component.html',
   styleUrls: ['./chat.component.css'],
 })
-export class ChatComponent
-  implements OnChanges, OnInit, OnDestroy, AfterViewChecked
-{
+export class ChatComponent implements OnChanges, OnInit, OnDestroy {
   // All the injected services.
   chat: ChatService = inject(ChatService);
   formBuilder: FormBuilder = inject(FormBuilder);
@@ -49,21 +47,20 @@ export class ChatComponent
   });
 
   previousMessages: any;
-  private messagesSubscription: Subscription | undefined;
+  messagesSubscription: Subscription | undefined;
 
   ngOnInit(): void {
     this.messagesSubscription = this.chat.messages$.subscribe((data) => {
+      // this.scrollToBottom();
       const emailFromSession: string | null = sessionStorage.getItem('email');
       if (
         data &&
-        (data.receiverEmail === this.selectedEmail ||
-          data.senderEmail === this.selectedEmail)
+        (String(data?.receiverEmail) === this.selectedEmail ||
+          String(data?.senderEmail) === this.selectedEmail)
       ) {
         this.chatMessages?.data?.push(data);
-
-        this.scrollToBottom();
       }
-      if (data.receiverEmail === emailFromSession) {
+      if (String(data?.receiverEmail) === String(emailFromSession)) {
         this.sweetAlert.success('message from :' + data.senderEmail);
       }
     });
@@ -82,12 +79,6 @@ export class ChatComponent
     if (this.messagesSubscription) {
       this.messagesSubscription.unsubscribe();
     }
-  }
-  ngAfterViewChecked() {
-    // For scrolling to the bottom after the view changes basically when
-    // the new message is added
-
-    this.scrollToBottom();
   }
 
   loadPreviousMessages(): void {
@@ -118,12 +109,18 @@ export class ChatComponent
     this.form.reset();
   }
 
-  scrollToBottom() {
-    try {
-      this.chatHistoryContainer.nativeElement.scrollTop =
-        this.chatHistoryContainer.nativeElement.scrollHeight;
-    } catch (err) {
-      console.error('Could not scroll to the bottom of chat:', err);
-    }
+  // scrollToBottom() {
+  //   try {
+  //     this.chatHistoryContainer.nativeElement.scrollTop =
+  //       this.chatHistoryContainer.nativeElement.scrollHeight;
+  //   } catch (err) {
+  //     console.error('Could not scroll to the bottom of chat:', err);
+  //   }
+  // }
+
+  loadPreviousMsgs() {
+    // if (this.chatHistoryContainer.nativeElement.scrollTop === 0) {
+    // console.log('on the T-O-P');
+    // }
   }
 }

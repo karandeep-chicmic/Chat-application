@@ -24,7 +24,6 @@ export class ApiCallsService {
   }
 
   changePassword(password: user, token: string) {
-
     return this.http.post(API.BASE_URL + API.RESET_PASS, password, {
       headers: {
         Authorization: `Bearer ${token}`,
@@ -40,7 +39,15 @@ export class ApiCallsService {
     return this.http.post(API.BASE_URL + API.LOGOUT_USER, {});
   }
 
-  getUser(id?: string) {
-    return this.http.get(`${API.BASE_URL}${API.USER_GET}?id=${id}`);
+  getUser() {
+    return this.http.get(`${API.BASE_URL}${API.USER_GET}`);
+  }
+
+  editUser(user: user, id: string) {
+    return this.http.put(`${API.BASE_URL}${API.USER_EDIT}?id=${id}`, user);
+  }
+
+  updatePassword(passwords: any) {
+    return this.http.post(`${API.BASE_URL}${API.UPDATE_PASSWORD}`, passwords);
   }
 }

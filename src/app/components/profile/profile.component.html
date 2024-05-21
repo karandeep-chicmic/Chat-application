@@ -1,41 +1,38 @@
-{{ data | json }}
 <div class="mt-4 mb-4 p-3 d-flex justify-content-center">
   <div class="card p-4">
     <div
       class="image d-flex flex-column justify-content-center align-items-center"
     >
       <button class="btn">
-        <img
-          [src]="imageUrl"
-          height="100"
-          width="100"
-          alt="avatar"
-        />
+        <img class="img" [src]="imageUrl" height="100" width="100" alt="avatar" />
       </button>
       <div
         class="d-flex flex-row justify-content-center align-items-center gap-2"
       >
-        <span class="idd1">{{ data[0].phoneNo }}</span>
+        <span class="idd1">{{ data.phoneNo }}</span>
         <span><i class="fa fa-copy"></i></span>
       </div>
       <div class="text mt-3">
-        <span>{{data[0].firstName}} </span>
-        <span>{{data[0].lastName}}</span>
+        <span>{{ data.firstName }} </span>
+        <span>{{ data.lastName }}</span>
       </div>
       <div
         class="d-flex flex-row justify-content-center align-items-center mt-3"
       >
-        <span class="follow">{{ data[0].email }}</span>
+        <span class="follow">{{ data.email }}</span>
       </div>
-      <div class="d-flex mt-2">
-        <button class="btn1 btn-dark">Edit Profile</button>
+      <div class="d-flex mt-2 mb-3">
+        <button class="btn1 btn-dark" (click)="editProfileNav()" routerLinkActive="router-link-active">Edit Profile</button>
       </div>
+      <button class="btn1 btn-dark" (click)="changePass()">Change Password</button>
       <div
         class="gap-3 mt-3 icons d-flex flex-row justify-content-center align-items-center"
       ></div>
       <div class="px-2 rounded mt-4 date">
-        <span class="join">Created on {{data[0].created | date}}</span>
+        <span class="join">Date of Birth {{ data.dateOfBirth | date }}</span>
       </div>
     </div>
   </div>
 </div>
+
+

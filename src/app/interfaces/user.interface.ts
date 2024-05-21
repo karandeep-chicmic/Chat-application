@@ -8,6 +8,7 @@ export interface user {
   phoneNo?: number;
   dateOfBirth?: Date | string;
   created?: string | Date;
+  profileImagePath?: string;
 }
 
 export interface forgotPass {

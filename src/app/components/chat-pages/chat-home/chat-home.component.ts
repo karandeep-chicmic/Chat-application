@@ -2,7 +2,7 @@ import { Component, inject, OnInit } from '@angular/core';
 import { Router, RouterModule } from '@angular/router';
 import { ChatService } from '../../../services/chat.service';
 import { ApiCallsService } from '../../../services/api-calls.service';
-import { dataBySearch } from '../../../interfaces/user.interface';
+import { dataBySearch, user } from '../../../interfaces/user.interface';
 import { API, DEFAULT_USER_IMG } from '../../../constants/allConstants';
 import { CommonModule } from '@angular/common';
 import { ChatComponent } from '../chat/chat.component';
@@ -65,8 +65,7 @@ export class ChatHomeComponent implements OnInit {
             this.dataBySearch = data.data;
             this.defaultData = data.data;
 
-            // console.log(data.data);
-
+            
             // Setting the last talked user to default
             if (!flag) {
               this.chatData = data.data[0]?.chatRoomId;
@@ -114,8 +113,8 @@ export class ChatHomeComponent implements OnInit {
   }
 
   // To find the Image of particular user
-  findImage(profileImagePath: string | undefined,err?:string ) {
-    if(err){
+  findImage(profileImagePath: string | undefined, err?: string) {
+    if (err) {
       return DEFAULT_USER_IMG.IMAGE;
     }
     if (profileImagePath && profileImagePath !== '') {
@@ -137,7 +136,6 @@ export class ChatHomeComponent implements OnInit {
 
   // Image error
   onImageError() {
-    
     return this.altImgURl;
   }
 

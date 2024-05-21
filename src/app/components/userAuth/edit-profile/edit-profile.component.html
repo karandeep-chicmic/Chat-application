@@ -1,0 +1,107 @@
+<body>
+  <!-- For Editing User  -->
+  <div *ngIf="!editUserOrPass" class="container mt-5">
+    <h1 class="heading">Edit User Page</h1>
+    <div class="login-page">
+      <div class="form">
+        <form [formGroup]="form" (ngSubmit)="onSubmit()">
+          <!-- Validators Start -->
+          <div
+            class="validation-check"
+            *ngIf="form.controls['firstName'].touched"
+          >
+            <span
+              class="validation-check"
+              *ngIf="form.controls['firstName'].errors?.['required']"
+              >First Name Field is required</span
+            >
+          </div>
+          <input
+            formControlName="firstName"
+            type="text"
+            placeholder="first name"
+          />
+          <!-- Validators End -->
+          <!-- Validators Start -->
+          <div
+            class="validation-check"
+            *ngIf="form.controls['lastName'].touched"
+          >
+            <span
+              class="validation-check"
+              *ngIf="form.controls['lastName'].errors?.['required']"
+              >Last Name Field is required</span
+            >
+          </div>
+          <input
+            formControlName="lastName"
+            type="text"
+            placeholder="last name"
+          />
+
+          <!-- Validators End -->
+         
+          <!-- Validators Start -->
+          <div
+            class="validation-check"
+            *ngIf="form.controls['phoneNo'].touched"
+          >
+            <span
+              class="validation-check"
+              *ngIf="form.controls['phoneNo'].errors?.['required']"
+              >Phone Number Field is required</span
+            >
+            <span
+              class="validation-check"
+              *ngIf="form.controls['phoneNo'].errors?.['pattern']"
+              >Enter A Valid Phone</span
+            >
+          </div>
+          <input
+            formControlName="phoneNo"
+            type="text"
+            placeholder="Phone Number"
+          />
+
+          <!-- Validators End -->
+          <div
+            class="validation-check"
+            *ngIf="form.controls['phoneNo'].touched"
+          >
+            <span
+              class="validation-check"
+              *ngIf="form.controls['dateOfBirth'].errors?.['required']"
+              >Date Field is required</span
+            >
+          </div>
+          <input formControlName="dateOfBirth" type="date" placeholder="Date" />
+
+          <button type="submit">Edit</button>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- TO change password  -->
+  <div *ngIf="editUserOrPass" class="container mt-5">
+    <h1 class="heading">Change Password</h1>
+    <div class="login-page">
+      <div class="form">
+        <form [formGroup]="formPassword" (ngSubmit)="onSubmitPassword()">
+          <input
+            formControlName="oldPassword"
+            type="password"
+            placeholder="Old Password"
+          />
+          <input
+            formControlName="newPassword"
+            type="password"
+            placeholder="New Password"
+          />
+
+          <button type="submit">Change Password</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</body>
