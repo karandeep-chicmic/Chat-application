@@ -6,6 +6,7 @@ export const API = {
   RESET_PASS: '/api/Password/ResetPassword',
   SEARCH_STRING: '/api/User?searchString=',
   LOGOUT_USER: '/api/Login/logout',
+  USER_GET: '/api/User',
 };
 
 export const STATUS_CODES = {
@@ -22,6 +23,7 @@ export const ROUTES = {
   HOME_COMPONENT: 'homeComp',
   TESTING: 'testing',
   CHAT: 'chat',
+  PROFILE: 'profile',
 };
 
 export const SIGNALR_API = {

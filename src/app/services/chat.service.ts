@@ -15,9 +15,9 @@ export class ChatService {
   constructor() {
     this.startConnection();
 
-    this.connection?.on('refresh', () => {
-      console.log('it is in refresh');
-    });
+      this.connection?.on('refresh', () => {
+        console.log('it is in refresh');
+      });
 
     this.connection?.on('receiveMessage', (data) => {
       console.log('Message Received', data);

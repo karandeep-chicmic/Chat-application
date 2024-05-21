@@ -53,18 +53,19 @@ export class ChatComponent
 
   ngOnInit(): void {
     this.messagesSubscription = this.chat.messages$.subscribe((data) => {
-      if (data) {
+      if (
+        data &&
+        (data.receiverEmail === this.selectedEmail ||
+          data.senderEmail === this.selectedEmail)
+      ) {
         this.chatMessages?.data?.push(data);
+
         this.scrollToBottom();
         console.log(data);
-
-        console.log(this);
 
         if (data.senderEmail === this.selectedEmail) {
           this.sweetAlert.success('message from :' + data.senderEmail);
         }
-
-        // this.sweetAlert.success(data?.message);
       }
     });
 
@@ -119,7 +120,7 @@ export class ChatComponent
     this.form.reset();
   }
 
-  scrollToBottom(){
+  scrollToBottom() {
     try {
       this.chatHistoryContainer.nativeElement.scrollTop =
         this.chatHistoryContainer.nativeElement.scrollHeight;
