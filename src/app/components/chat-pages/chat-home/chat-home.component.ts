@@ -7,6 +7,7 @@ import { API, DEFAULT_USER_IMG } from '../../../constants/allConstants';
 import { CommonModule } from '@angular/common';
 import { ChatComponent } from '../chat/chat.component';
 import { UsedDataService } from '../../../services/used-data.service';
+import { debounceTime, distinctUntilChanged, Subject } from 'rxjs';
 
 @Component({
   selector: 'app-chat-home',
@@ -30,9 +31,29 @@ export class ChatHomeComponent implements OnInit {
   alreadyChatWithUser: any;
   username: string | null = 'temp';
   altImgURl: string = '';
+  private searchSubject = new Subject<string>();
 
   // Constructor and Lifecycle hooks
   ngOnInit(): void {
+    this.setUsers(false);
+    this.chat.messages$.subscribe(() => {
+      this.setUsers(true);
+    });
+
+    // for debouncing
+    this.searchSubject
+      .pipe(
+        debounceTime(300), // 300ms debounce time
+        distinctUntilChanged() // Only emit when the value changes
+      )
+      .subscribe((searchText) => {
+        this.apiCalls.searchUser(searchText).subscribe((data: any) => {
+          this.dataBySearch = data?.data;
+        });
+      });
+  }
+
+  setUsers(flag: boolean): void {
     // Wait for connection to be connected
     this.waitForConnection().then(() => {
       //To get the chat History
@@ -42,11 +63,13 @@ export class ChatHomeComponent implements OnInit {
           if (data.data) {
             // Common data for search and Chat history users.
             this.dataBySearch = data.data;
-            this.defaultData = data.data; 
-            
+            this.defaultData = data.data;
+
             // Setting the last talked user to default
-            this.chatData = data.data[0]?.chatRoomId;
-            this.selectedEmail = data.data[0]?.email;
+            if (!flag) {
+              this.chatData = data.data[0]?.chatRoomId;
+              this.selectedEmail = data.data[0]?.email;
+            }
           }
         })
         .catch((err) => {
@@ -69,7 +92,7 @@ export class ChatHomeComponent implements OnInit {
           this.chat.connection?.state.toLowerCase() === 'disconnected' ||
           this.chat.connection?.state.toLowerCase() === 'failed'
         ) {
-          reject('Connection failed');
+          reject(new Error('Connection failed'));
         } else {
           setTimeout(checkConnection, 100); // check every 100 ms
         }
@@ -80,9 +103,12 @@ export class ChatHomeComponent implements OnInit {
 
   // search the user on basis of user input
   searchUser(event: any) {
-    this.apiCalls.searchUser(event.target.value).subscribe((data: any) => {
-      this.dataBySearch = data?.data;
-    });
+    const searchText = event.target.value;
+    if (searchText === '') {
+      this.setToDefault();
+      return;
+    }
+    this.searchSubject.next(searchText);
   }
 
   // To find the Image of particular user
@@ -95,7 +121,7 @@ export class ChatHomeComponent implements OnInit {
 
   // Get Chat of user on Click
   getChat(email: string | undefined) {
-    this.selectedEmail = email || '';
+    this.selectedEmail = email ?? '';
     this.chat
       .addChat(email ?? '')
       .then((data) => {
@@ -110,6 +136,6 @@ export class ChatHomeComponent implements OnInit {
   }
 
   setToDefault() {
-    this.dataBySearch = [...this.defaultData];
+    this.dataBySearch = this.defaultData;
   }
 }

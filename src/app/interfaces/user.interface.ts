@@ -1,11 +1,13 @@
 export interface user {
   id?: number;
+  userId?: string;
   firstName?: string;
   lastName?: string;
   email?: string;
   password?: string;
   phoneNo?: number;
-  dateOfBirth?: Date;
+  dateOfBirth?: Date | string;
+  created?: string | Date;
 }
 
 export interface forgotPass {
