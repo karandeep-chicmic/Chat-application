@@ -10,6 +10,7 @@ import { ROUTES } from './constants/allConstants';
 // import { TestingComponent } from './components/testing/testing.component';
 import { ChatComponent } from './components/chat-pages/chat/chat.component';
 import { ProfileComponent } from './components/profile/profile.component';
+import { EditProfileComponent } from './components/userAuth/edit-profile/edit-profile.component';
 
 export const routes: Routes = [
   {
@@ -42,6 +43,10 @@ export const routes: Routes = [
     path: ROUTES.PROFILE,
     component: ProfileComponent,
     canActivate: [canActivate],
+  },
+  {
+    path: ROUTES.EDIT_USER_PASSWORD,
+    component: EditProfileComponent
   },
   { path: ROUTES.CHAT, component: ChatComponent },
   { path: ROUTES.WILDCARD, component: PageNotFoundComponent },

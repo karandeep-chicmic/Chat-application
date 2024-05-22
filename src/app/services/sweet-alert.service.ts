@@ -41,11 +41,23 @@ export class SweetAlertService {
     });
   }
 
-  successModalMsg(message: string){
+  successModalMsg(message: string) {
     Swal.fire({
-      title: "Success",
+      title: 'Success',
       text: message,
-      icon: "success"
+      icon: 'success',
+    });
+  }
+
+  logoutMessage(): any {
+    return Swal.fire({
+      title: 'Are you sure?',
+      text: 'You want to logout!?',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Yes!',
     });
   }
   constructor() {}

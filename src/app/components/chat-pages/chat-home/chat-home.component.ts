@@ -7,12 +7,7 @@ import { API, DEFAULT_USER_IMG } from '../../../constants/allConstants';
 import { CommonModule } from '@angular/common';
 import { ChatComponent } from '../chat/chat.component';
 import { UsedDataService } from '../../../services/used-data.service';
-<<<<<<< HEAD
-import { Subject } from 'rxjs';
-import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
-=======
 import { debounceTime, distinctUntilChanged, Subject } from 'rxjs';
->>>>>>> ad5e5c6388f404aba1a4e55a1d8ad922ca14313f
 
 @Component({
   selector: 'app-chat-home',
@@ -36,16 +31,6 @@ export class ChatHomeComponent implements OnInit {
   alreadyChatWithUser: any;
   username: string | null = 'temp';
   altImgURl: string = '';
-<<<<<<< HEAD
-  searchSubject = new Subject<string>(); // Subject for debouncing search input
-
-  // Constructor and Lifecycle hooks
-  ngOnInit(): void {
-    this.searchSubject
-      .pipe(
-        debounceTime(500), // 300ms debounce time
-        distinctUntilChanged()
-=======
   private searchSubject = new Subject<string>();
 
   // Constructor and Lifecycle hooks
@@ -60,20 +45,15 @@ export class ChatHomeComponent implements OnInit {
       .pipe(
         debounceTime(300), // 300ms debounce time
         distinctUntilChanged() // Only emit when the value changes
->>>>>>> ad5e5c6388f404aba1a4e55a1d8ad922ca14313f
       )
       .subscribe((searchText) => {
         this.apiCalls.searchUser(searchText).subscribe((data: any) => {
           this.dataBySearch = data?.data;
         });
       });
-<<<<<<< HEAD
-
-=======
   }
 
   setUsers(flag: boolean): void {
->>>>>>> ad5e5c6388f404aba1a4e55a1d8ad922ca14313f
     // Wait for connection to be connected
     this.waitForConnection().then(() => {
       // To get the chat History
@@ -85,10 +65,6 @@ export class ChatHomeComponent implements OnInit {
             this.dataBySearch = data.data;
             this.defaultData = data.data;
 
-<<<<<<< HEAD
-            
-=======
->>>>>>> ad5e5c6388f404aba1a4e55a1d8ad922ca14313f
             // Setting the last talked user to default
             if (!flag) {
               this.chatData = data.data[0]?.chatRoomId;
@@ -136,7 +112,10 @@ export class ChatHomeComponent implements OnInit {
   }
 
   // To find the Image of particular user
-  findImage(profileImagePath: string | undefined) {
+  findImage(profileImagePath: string | undefined, err?: string) {
+    if (err) {
+      return DEFAULT_USER_IMG.IMAGE;
+    }
     if (profileImagePath && profileImagePath !== '') {
       return API.BASE_URL + '/' + profileImagePath;
     }

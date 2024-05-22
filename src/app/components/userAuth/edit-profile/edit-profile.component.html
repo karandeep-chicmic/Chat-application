@@ -1,6 +1,7 @@
 <body>
-  <div class="container mt-5">
-    <h1 class="heading">Register Page</h1>
+  <!-- For Editing User  -->
+  <div *ngIf="!editUserOrPass" class="container mt-5">
+    <h1 class="heading">Edit User Page</h1>
     <div class="login-page">
       <div class="form">
         <form [formGroup]="form" (ngSubmit)="onSubmit()">
@@ -39,50 +40,7 @@
           />
 
           <!-- Validators End -->
-          <!-- Validators Start -->
-          <div
-            class="validation-check"
-            *ngIf="form.controls['password'].touched"
-          >
-            <span
-              class="validation-check"
-              *ngIf="form.controls['password'].errors?.['required']"
-              >Password Field is required</span
-            >
-            <span
-              class="validation-check"
-              *ngIf="form.controls['password'].errors?.['minlength']"
-              >Password must be greater than 8 letters</span
-            >
-          </div>
-          <input
-            formControlName="password"
-            type="password"
-            placeholder="password"
-          />
-
-          <!-- Validators End -->
-
-          <!-- Validators Start -->
-          <div class="validation-check" *ngIf="form.controls['email'].touched">
-            <span
-              class="validation-check"
-              *ngIf="form.controls['email'].errors?.['required']"
-              >Email Field is required</span
-            >
-            <span
-              class="validation-check"
-              *ngIf="form.controls['email'].errors?.['email']"
-              >Enter A Valid email</span
-            >
-          </div>
-
-          <input
-            formControlName="email"
-            type="email"
-            placeholder="email address"
-          />
-          <!-- Validators End -->
+         
           <!-- Validators Start -->
           <div
             class="validation-check"
@@ -118,10 +76,30 @@
           </div>
           <input formControlName="dateOfBirth" type="date" placeholder="Date" />
 
-          <button type="submit">create</button>
-          <p class="message">
-            Already registered? <a [routerLink]="'/chatHome'">Login</a>
-          </p>
+          <button type="submit">Edit</button>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- TO change password  -->
+  <div *ngIf="editUserOrPass" class="container mt-5">
+    <h1 class="heading">Change Password</h1>
+    <div class="login-page">
+      <div class="form">
+        <form [formGroup]="formPassword" (ngSubmit)="onSubmitPassword()">
+          <input
+            formControlName="oldPassword"
+            type="password"
+            placeholder="Old Password"
+          />
+          <input
+            formControlName="newPassword"
+            type="password"
+            placeholder="New Password"
+          />
+
+          <button type="submit">Change Password</button>
         </form>
       </div>
     </div>

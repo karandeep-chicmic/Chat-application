@@ -45,8 +45,8 @@ export class LoginComponent {
   onSubmit() {
     if (this.form.invalid) {
       this.sweetAlert.error('Form is Invalid');
-      console.log(this.form.controls['password'] );
-      
+      console.log(this.form.controls['password']);
+
       return;
     }
     const userInForm: user = {
@@ -64,6 +64,7 @@ export class LoginComponent {
         sessionStorage.setItem('name', data.data.name);
         sessionStorage.setItem('userId', data.data.userID);
         sessionStorage.setItem('token', data.data.token);
+        sessionStorage.setItem('email', this.form.controls['email'].value);
 
         // Starting the Signal R connection
         this.chat.startConnection();

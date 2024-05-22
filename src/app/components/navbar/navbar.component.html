@@ -8,7 +8,7 @@
       src="https://cdn-icons-png.flaticon.com/512/5539/5539745.png"
       alt=""
       width="45"
-      [routerLink]="'/'"
+      [routerLink]="'/chatHome'"
       height="45"
       class="d-inline-block align-text-top ml-2 mr-3"
     />
@@ -26,35 +26,22 @@
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
       <ul class="navbar-nav me-auto mb-2 mb-lg-0">
         <li class="nav-item">
-          <a class="nav-link active" aria-current="page" [routerLink]="'/'"
-            >Home</a
+          <a class="nav-link active" aria-current="page" [routerLink]="'/chatHome'"
+            >Chat Hub</a
           >
-        </li>
-        <li class="nav-item dropdown">
-          <a
-            class="nav-link dropdown-toggle"
-            id="navbarDropdown"
-            role="button"
-            data-bs-toggle="dropdown"
-            aria-expanded="false"
-          >
-            Dropdown
-          </a>
-          <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-            <li><a class="dropdown-item">Action</a></li>
-            <li><a class="dropdown-item">Another action</a></li>
-            <li><hr class="dropdown-divider" /></li>
-            <li><a class="dropdown-item">Something else here</a></li>
-          </ul>
         </li>
         <li class="nav-item">
-          <a
-            class="nav-link disabled"
-            href="#"
-            tabindex="-1"
-            aria-disabled="true"
-            >Disabled</a
+          <button class="btn btn-dark"  [routerLink]="'/editUserOrDelete'" [queryParams]="{page:'editUser'}">Edit Profile</button>
+        </li>
+        <li class="nav-item dropdown">
+          <!-- <a
+            class="nav-link"
+            id="navbarDropdown"
+            [routerLink]="'/profile'"
           >
+            Open Profile 
+          </a> -->
+          <button class="btn btn-dark"  [routerLink]="'/profile'">Open Profile</button>
         </li>
       </ul>
       <ul class="navbar-nav mr-3 mb-lg-0">

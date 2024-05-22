@@ -7,7 +7,7 @@ import {
   OnDestroy,
   ViewChild,
   ElementRef,
-  AfterViewChecked,
+  AfterViewInit,
 } from '@angular/core';
 import { ChatService } from '../../../services/chat.service';
 import { CommonModule, JsonPipe } from '@angular/common';
@@ -19,6 +19,7 @@ import {
 } from '@angular/forms';
 import { Subscription } from 'rxjs';
 import { SweetAlertService } from '../../../services/sweet-alert.service';
+import { ApiCallsService } from '../../../services/api-calls.service';
 
 @Component({
   selector: 'app-chat',
@@ -28,12 +29,13 @@ import { SweetAlertService } from '../../../services/sweet-alert.service';
   styleUrls: ['./chat.component.css'],
 })
 export class ChatComponent
-  implements OnChanges, OnInit, OnDestroy, AfterViewChecked
+  implements OnChanges, OnInit, OnDestroy, AfterViewInit
 {
   // All the injected services.
   chat: ChatService = inject(ChatService);
   formBuilder: FormBuilder = inject(FormBuilder);
   sweetAlert: SweetAlertService = inject(SweetAlertService);
+  apiCalls: ApiCallsService = inject(ApiCallsService);
 
   @Input() chatData: any;
   @Input() selectedEmail: any;
@@ -41,32 +43,32 @@ export class ChatComponent
 
   // All the chat messages associated with the selected user
   chatMessages: any;
-  pageNumber: number = 1;
+  pageNumber: number = 0;
+  fileToUpload: any;
 
   // Form for Sending msg
   form: FormGroup = this.formBuilder.group({
     inputChatMsg: ['', [Validators.required]],
+    fileInput: [''],
   });
 
   previousMessages: any;
-  private messagesSubscription: Subscription | undefined;
+  messagesSubscription: Subscription | undefined;
 
   ngOnInit(): void {
     this.messagesSubscription = this.chat.messages$.subscribe((data) => {
+      const emailFromSession: string | null = sessionStorage.getItem('email');
       if (
         data &&
-        (data.receiverEmail === this.selectedEmail ||
-          data.senderEmail === this.selectedEmail)
+        (String(data?.receiverEmail) === this.selectedEmail ||
+          String(data?.senderEmail) === this.selectedEmail)
       ) {
         this.chatMessages?.data?.push(data);
-
-        this.scrollToBottom();
-        console.log(data);
-
-        if (data.senderEmail === this.selectedEmail) {
-          this.sweetAlert.success('message from :' + data.senderEmail);
-        }
       }
+      if (String(data?.receiverEmail) === String(emailFromSession)) {
+        this.sweetAlert.success('message from :' + data.senderEmail);
+      }
+      this.scrollToBottom();
     });
 
     // Initialize the previous messages when the component loads
@@ -78,17 +80,15 @@ export class ChatComponent
     this.loadPreviousMessages();
   }
 
+  ngAfterViewInit(): void {
+    this.scrollToBottom();
+  }
+
   ngOnDestroy(): void {
     // Clean up the subscription
     if (this.messagesSubscription) {
       this.messagesSubscription.unsubscribe();
     }
-  }
-  ngAfterViewChecked() {
-    // For scrolling to the bottom after the view changes basically when
-    // the new message is added
-
-    this.scrollToBottom();
   }
 
   loadPreviousMessages(): void {
@@ -97,35 +97,110 @@ export class ChatComponent
         .previousMessages(this.chatData, this.pageNumber)
         .then((data) => {
           this.chatMessages = data;
-          // console.log(this.chatMessages);
+          this.scrollToBottom();
         })
         .catch((err) => console.log(err));
     }
   }
 
-  //  To send a message in chat
   sendMsg() {
-    console.log(this.chatMessages);
-
     const msg = this.form.controls['inputChatMsg'].value;
-    this.chat
-      .sendMessage(this.selectedEmail, msg, 1, '', '')
-      .then((data) => {
-        console.log(data);
-      })
-      .catch((err) => {
-        console.log(err);
+    //  if file doesnt exists ie not uploaded
+    if (!this.fileToUpload) {
+      this.chat
+        .sendMessage(this.selectedEmail, msg, 1, '', '')
+        .then((data) => {
+          this.scrollToBottom();
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    } else {
+      // when file exists then save to db.
+      const type: string = this.fileToUpload?.type;
+
+      // Check type to send
+      var typeToSend: number = -1;
+      if (type.includes('image')) {
+        typeToSend = 2;
+      } else {
+        typeToSend = 3;
+      }
+
+      const data = new FormData();
+      data.append('file', this.fileToUpload);
+
+      const email = sessionStorage.getItem('email') ?? '';
+
+      this.apiCalls.saveFileToDb(typeToSend, email, data).subscribe({
+        next: (data: any) => {
+          console.log(data.data);
+          this.chat
+            .sendMessage(
+              this.selectedEmail,
+              msg,
+              typeToSend,
+              data.data.filePath,
+              data.data.fileName
+            )
+            .then(() => {
+              console.log('Saved msg as well as file to db!');
+            });
+        },
+        error: (err) => {
+          console.log(err);
+        },
       });
+
+      console.log('contains file ');
+      this.fileToUpload = '';
+    }
 
     this.form.reset();
   }
 
   scrollToBottom() {
-    try {
-      this.chatHistoryContainer.nativeElement.scrollTop =
-        this.chatHistoryContainer.nativeElement.scrollHeight;
-    } catch (err) {
-      console.error('Could not scroll to the bottom of chat:', err);
+    // debugger
+    if (this.chatHistoryContainer?.nativeElement) {
+      try {
+        this.chatHistoryContainer.nativeElement.scrollTop =
+          this.chatHistoryContainer.nativeElement.scrollHeight;
+      } catch (err) {
+        console.error('Could not scroll to the bottom of chat:', err);
+      }
     }
+  }
+
+  loadMoreMsgs() {
+    if (this.chatHistoryContainer.nativeElement.scrollTop === 0) {
+      this.pageNumber = this.chatMessages.data.length;
+
+      this.chat
+        .previousMessages(this.chatData, this.pageNumber)
+        .then((data) => {
+          console.log(data.data);
+          if (data.data.length === 0) {
+            this.sweetAlert.success('No More messages!!');
+          }
+
+          // add to the starting of chat messages the msgs from backend
+          data.data.forEach((msgs: any) => {
+            this.chatMessages.data.unshift(msgs);
+          });
+        });
+    }
+  }
+
+  onEnter(event: KeyboardEvent) {
+    if (event.key === 'Enter' && !event.shiftKey) {
+      event.preventDefault();
+      this.sendMsg();
+      // this.scrollToBottom();
+    }
+  }
+
+  fileUpload(event: any) {
+    this.fileToUpload = event.target.files[0];
+    console.log(this.fileToUpload);
   }
 }

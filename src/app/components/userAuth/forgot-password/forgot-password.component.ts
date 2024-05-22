@@ -92,6 +92,9 @@ export class ForgotPasswordComponent implements OnInit {
       password: this.formPass.controls['password'].value,
     };
 
+    
+    
+
     this.apiCalls.changePassword(password, this.token).subscribe({
       next: (res) => {
         console.log(res);
@@ -100,6 +103,7 @@ export class ForgotPasswordComponent implements OnInit {
       },
       error: (err) => {
         console.log('Error is : ', err);
+        this.sweetAlert.error(err?.message);
       },
     });
   }
