@@ -34,11 +34,8 @@ export class LoginComponent {
 
   // all Variables and forms
   form: FormGroup = this.formBuilder.group({
-    email: [
-      'karandeep.singh@chicmic.co.in',
-      [Validators.required, Validators.email],
-    ],
-    password: ['Noahrem@12', [Validators.required, Validators.minLength(8)]],
+    email: ['', [Validators.required, Validators.email]],
+    password: ['', [Validators.required, Validators.minLength(8)]],
   });
 
   // Class methods
