@@ -48,7 +48,7 @@ export class ChatComponent
 
   // Form for Sending msg
   form: FormGroup = this.formBuilder.group({
-    inputChatMsg: ['', [Validators.required]],
+    inputChatMsg: [''],
     fileInput: [''],
   });
 
@@ -115,7 +115,7 @@ export class ChatComponent
         .catch((err) => {
           console.log(err);
         });
-    } else {
+    } else if (this.fileToUpload) {
       // when file exists then save to db.
       const type: string = this.fileToUpload?.type;
 
